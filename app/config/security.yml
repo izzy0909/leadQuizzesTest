@@ -1,0 +1,28 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username        # fos_user.user_provider.username_email does not seem to work (OAuth-spec related ("username + password") ?)
+    firewalls:
+        oauth_token:                                   # Everyone can access the access token URL.
+            pattern: ^/oauth/v2/token
+            security: false
+        open_api_docs:
+            pattern: ^/api/docs
+            security: false
+        list_product_api:
+            pattern: ^/api/product/list
+            security: false
+        list_category_api:
+            pattern: ^/api/category/list
+            security: false
+        single_product_api:
+            pattern: ^/api/product/get
+            security: false
+        api:
+            pattern: ^/                                # All URLs are protected
+            fos_oauth: true                            # OAuth2 protected resource
+            stateless: true                            # Do no set session cookies
+            anonymous: false                           # Anonymous access is not allowed
